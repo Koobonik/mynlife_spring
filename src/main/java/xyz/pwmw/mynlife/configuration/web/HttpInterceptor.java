@@ -1,13 +1,14 @@
 package xyz.pwmw.mynlife.configuration.web;
 
-import com.spring.service.PricingPlanService;
-import com.spring.util.jwt.JwtTokenProvider;
+
 import io.github.bucket4j.Bucket;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import xyz.pwmw.mynlife.service.PricingPlanService;
+import xyz.pwmw.mynlife.util.jwt.JwtTokenProvider;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

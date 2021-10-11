@@ -1,9 +1,9 @@
 package xyz.pwmw.mynlife.util;
 
-import com.spring.util.yml.ApplicationAESRead;
 import lombok.Getter;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.stereotype.Component;
+import xyz.pwmw.mynlife.util.yml.ApplicationAESRead;
 
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
