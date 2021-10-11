@@ -28,7 +28,7 @@ public class SwaggerConfig {
                 .useDefaultResponseMessages(false)
                 .groupName(version)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.spring.controller"))
+                .apis(RequestHandlerSelectors.basePackage("xyz.pwmw.mynlife.controller"))
                 .paths(PathSelectors.ant("/api/**"))
                 .build()
                 .apiInfo(apiInfo(title, version))
