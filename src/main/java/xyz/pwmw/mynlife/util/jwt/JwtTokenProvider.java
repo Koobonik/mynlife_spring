@@ -1,8 +1,6 @@
 package xyz.pwmw.mynlife.util.jwt;
 
-import com.spring.dto.responseDto.JwtResponseDto;
-import com.spring.model.Users;
-import com.spring.util.PemReader;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -16,6 +14,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
+import xyz.pwmw.mynlife.dto.responseDto.JwtResponseDto;
+import xyz.pwmw.mynlife.model.Users;
+import xyz.pwmw.mynlife.util.PemReader;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
