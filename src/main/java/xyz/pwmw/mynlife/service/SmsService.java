@@ -40,14 +40,14 @@ public class SmsService {
         return applicationNaverSENS.getAccesskey();
     }
 
-    public SendSmsResponseDto sendSms(String recipientPhoneNumber, String content) throws ParseException, JsonProcessingException, UnsupportedEncodingException, InvalidKeyException, NoSuchAlgorithmException, URISyntaxException {
+    public SendSmsResponseDto sendSms(MessagesRequestDto messagesRequestDto) throws ParseException, JsonProcessingException, UnsupportedEncodingException, InvalidKeyException, NoSuchAlgorithmException, URISyntaxException {
         Long time = new DateCreator().getTimestamp().getTime();
         List<MessagesRequestDto> messages = new ArrayList<>();
         // 보내는 사람에게 내용을 보냄.
-        messages.add(new MessagesRequestDto(recipientPhoneNumber,content)); // content부분이 내용임
+        messages.add(messagesRequestDto); // content부분이 내용임
 
         // 전체 json에 대해 메시지를 만든다.
-        SmsRequestDto smsRequestDto = new SmsRequestDto("SMS", "COMM", "82", applicationNaverSENS.getSendfrom(), "MangoLtd", messages);
+        SmsRequestDto smsRequestDto = new SmsRequestDto("SMS", "COMM", "82", applicationNaverSENS.getSendfrom(), "My_N_Life", messages);
 
         // 쌓아온 바디를 json 형태로 변환시켜준다.
         ObjectMapper objectMapper = new ObjectMapper();

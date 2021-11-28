@@ -1,5 +1,6 @@
 package xyz.pwmw.mynlife.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -9,6 +10,7 @@ import xyz.pwmw.mynlife.dto.requestDto.*;
 import xyz.pwmw.mynlife.dto.responseDto.DefaultResponseDto;
 import xyz.pwmw.mynlife.dto.responseDto.JwtResponseDto;
 import xyz.pwmw.mynlife.service.EmailAuthService;
+import xyz.pwmw.mynlife.service.SmsService;
 import xyz.pwmw.mynlife.service.UsersService;
 import xyz.pwmw.mynlife.util.jwt.JwtTokenProvider;
 
@@ -17,6 +19,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -32,6 +35,7 @@ public class Api_V1 {
     private final JwtTokenProvider jwtTokenProvider;
     private final UsersService usersService;
     private final EmailAuthService emailAuthService;
+    private final SmsService smsService;
 
     @ApiOperation(value = "HTTP GET EXAMPLE", notes = "GET 요청에 대한 예제 입니다.")
     @ApiResponses({
@@ -136,6 +140,12 @@ public class Api_V1 {
 //            log.info(jwtTokenProvider.getAuthentication(jwt).getName());
         }
         return "hi";
+    }
+
+    @PostMapping("sendSms")
+    public void sendSms(@RequestBody MessagesRequestDto messagesRequestDto) throws UnsupportedEncodingException, ParseException, NoSuchAlgorithmException, URISyntaxException, InvalidKeyException, JsonProcessingException {
+        String statusCode = smsService.sendSms(messagesRequestDto).getStatusCode();
+
     }
 
     @ApiResponses({
