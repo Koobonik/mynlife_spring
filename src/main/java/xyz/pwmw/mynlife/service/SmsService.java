@@ -15,6 +15,7 @@ import xyz.pwmw.mynlife.dto.requestDto.MessagesRequestDto;
 import xyz.pwmw.mynlife.dto.requestDto.SmsRequestDto;
 import xyz.pwmw.mynlife.dto.responseDto.SendSmsResponseDto;
 import xyz.pwmw.mynlife.util.DateCreator;
+import xyz.pwmw.mynlife.util.yml.ApplicationNaverSENS;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;

@@ -159,4 +159,12 @@ public class Api_V1 {
         return usersService.logout(jwtRequestDto);
     }
 
+    @ResponseBody
+    @GetMapping("/kakaoLogin")
+    public void  kakaoLogin(@RequestParam String code) {
+        System.out.println(code);
+        usersService.getKaKaoAccessToken(code);
+
+    }
+
 }

@@ -28,7 +28,7 @@ public class Users implements UserDetails {
     private String userEmail;
     @Column(columnDefinition = "VARCHAR(20)", nullable = false)
     private String userNickname;
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(columnDefinition = "TEXT")
     private String userPassword;
     @Column(columnDefinition = "TEXT")
     private String imageUrl;

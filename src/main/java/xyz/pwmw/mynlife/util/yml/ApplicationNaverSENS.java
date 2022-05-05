@@ -1,4 +1,4 @@
-package xyz.pwmw.mynlife.service;
+package xyz.pwmw.mynlife.util.yml;
 
 import lombok.Getter;
 import lombok.Setter;

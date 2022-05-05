@@ -31,6 +31,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.7'
     testImplementation 'org.springframework.amqp:spring-rabbit-test:2.4.4'
+    implementation'com.google.code.gson:gson:2.8.7'
 
     // api 문서화 라이브러리 swagger 추가
     compile 'io.springfox:springfox-swagger2:2.9.2'
