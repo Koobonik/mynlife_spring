@@ -161,7 +161,7 @@ public class Api_V1 {
 
     @ResponseBody
     @GetMapping("/kakaoLogin")
-    public void  kakaoLogin(@RequestParam String code) {
+    public void kakaoLogin(@RequestParam String code) {
         System.out.println(code);
         usersService.getKaKaoAccessToken(code);
 
