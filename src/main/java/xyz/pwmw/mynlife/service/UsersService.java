@@ -95,25 +95,25 @@ public class UsersService {
     }
 
     // 회원가입 todo:// 나중에 SignUpService를 따로 만들어줘서 관리하는 것이 편할 것으로 예상.
-    public ResponseEntity<?> socialSignUp(SignUpRequestDto signUpRequestDto) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException, ParseException {
-
-        // 유저의 이메일과 이메일 코드로 시크릿을 만들어서 검증한다.
-        if(emailAuthService.validateAuthNumber(new ValidateAuthNumberRequestDto(signUpRequestDto.getEmailCode(), signUpRequestDto.getUserEmail())).getStatusCodeValue() != 200){
-            return emailAuthService.validateAuthNumber(new ValidateAuthNumberRequestDto(signUpRequestDto.getEmailCode(), signUpRequestDto.getUserEmail()));
-        }
+    public ResponseEntity<?> socialSignUp(SocialSignUpRequestDto socialSignUpRequestDto) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException, ParseException {
 
         // todo 이메일은 양방향 암호화, 비밀번호는 단방향 암호화하여 저장한다.
-        String encryptedEmail = aes256Cipher.AES_Encode(signUpRequestDto.getUserEmail());
-        String password = new PasswordEncoding().encode(signUpRequestDto.getPassword());
+        String encryptedEmail = aes256Cipher.AES_Encode(socialSignUpRequestDto.getUserEmail());
+        String password = "unknown";
 
         // 유저를 만들어준다.
         List<String> roles = new ArrayList<>();
         roles.add("ROLE_USER");
+        Users users2 = usersRepository.findByUserEmail(encryptedEmail);
+        if(users2 != null){
+            return new ResponseEntity<>(new DefaultResponseDto(409, "이미 가입된 이메일 입니다."), HttpStatus.CONFLICT);
+        }
 
-        Users users = new Users(encryptedEmail, password, signUpRequestDto.getNickName(), roles);
+        Users users = new Users(encryptedEmail, password, socialSignUpRequestDto.getNickName(), roles, socialSignUpRequestDto.getSocialType());
 
         usersRepository.save(users);
-        return new ResponseEntity<>(new DefaultResponseDto(200, "The membership has been registered successfully!"), HttpStatus.OK);
+
+        return new ResponseEntity<>(new DefaultResponseDto(200, jwtTokenProvider.createTokens(users.getUserNickname(), roles).getJwt()), HttpStatus.OK);
     }
 
     // 로그인
