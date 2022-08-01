@@ -94,6 +94,28 @@ public class UsersService {
         return new ResponseEntity<>(new DefaultResponseDto(200, "The membership has been registered successfully!"), HttpStatus.OK);
     }
 
+    // 회원가입 todo:// 나중에 SignUpService를 따로 만들어줘서 관리하는 것이 편할 것으로 예상.
+    public ResponseEntity<?> socialSignUp(SignUpRequestDto signUpRequestDto) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException, ParseException {
+
+        // 유저의 이메일과 이메일 코드로 시크릿을 만들어서 검증한다.
+        if(emailAuthService.validateAuthNumber(new ValidateAuthNumberRequestDto(signUpRequestDto.getEmailCode(), signUpRequestDto.getUserEmail())).getStatusCodeValue() != 200){
+            return emailAuthService.validateAuthNumber(new ValidateAuthNumberRequestDto(signUpRequestDto.getEmailCode(), signUpRequestDto.getUserEmail()));
+        }
+
+        // todo 이메일은 양방향 암호화, 비밀번호는 단방향 암호화하여 저장한다.
+        String encryptedEmail = aes256Cipher.AES_Encode(signUpRequestDto.getUserEmail());
+        String password = new PasswordEncoding().encode(signUpRequestDto.getPassword());
+
+        // 유저를 만들어준다.
+        List<String> roles = new ArrayList<>();
+        roles.add("ROLE_USER");
+
+        Users users = new Users(encryptedEmail, password, signUpRequestDto.getNickName(), roles);
+
+        usersRepository.save(users);
+        return new ResponseEntity<>(new DefaultResponseDto(200, "The membership has been registered successfully!"), HttpStatus.OK);
+    }
+
     // 로그인
     public ResponseEntity<?> login(LoginRequestDto loginRequestDto) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, ParseException {
         // 일단 유저를 찾는다.

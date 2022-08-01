@@ -39,6 +39,9 @@ public class Users implements UserDetails {
     @Column(columnDefinition = "TEXT")
     private String gender; // male, female
 
+    @Column(columnDefinition = "VARCHAR(20)")
+    private String socialType;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 
