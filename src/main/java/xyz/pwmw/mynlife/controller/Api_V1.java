@@ -165,10 +165,11 @@ public class Api_V1 {
     final KaKaoService kaKaoService;
     @ResponseBody
     @GetMapping("/kakaoLogin")
-    public String kakaoLogin(@RequestParam String code) throws IOException {
+    public String kakaoLogin(@RequestParam String code) throws IOException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, ParseException, InvalidKeyException {
         System.out.println(code);
         final String access_Token = kaKaoService.getToken(code);
         final Map<String, Object> map = kaKaoService.getUserInfo(access_Token);
+//        usersService.socialSignUp(new SocialSignUpRequestDto("", "", "",""));
         return map.toString();
     }
 
