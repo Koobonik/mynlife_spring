@@ -112,16 +112,22 @@ public class KaKaoService {
             Map<String, Object> kakaoAccount = objectMapper.convertValue(map.get("kakao_account"), Map.class);
             Map<String, Object> properties = objectMapper.convertValue(map.get("properties"), Map.class);
             kakaoAccount.forEach((key, value) -> {
-
+                System.out.println(key + " : " +value);
             });
 
+            System.out.println("--------------------");
+            properties.forEach((key, value) -> {
+                System.out.println(key + " : " +value);
+            });
+            result.put("kakaoAccount", kakaoAccount);
+            result.put("properties", properties);
             String id = map.get("id").toString();
             String nickname = properties.get("nickname").toString();
             String age_range = kakaoAccount.get("age_range").toString();
 
-            result.put("id", id);
-            result.put("nickname", nickname);
-            result.put("age_range", age_range);
+//            result.put("id", id);
+//            result.put("nickname", nickname);
+//            result.put("age_range", age_range);
 
             br.close();
 
