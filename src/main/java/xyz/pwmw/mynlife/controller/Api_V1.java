@@ -10,6 +10,7 @@ import xyz.pwmw.mynlife.dto.requestDto.*;
 import xyz.pwmw.mynlife.dto.responseDto.DefaultResponseDto;
 import xyz.pwmw.mynlife.dto.responseDto.JwtResponseDto;
 import xyz.pwmw.mynlife.service.EmailAuthService;
+import xyz.pwmw.mynlife.service.KaKaoService;
 import xyz.pwmw.mynlife.service.SmsService;
 import xyz.pwmw.mynlife.service.UsersService;
 import xyz.pwmw.mynlife.util.jwt.JwtTokenProvider;
@@ -18,12 +19,14 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
+import java.util.Map;
 
 @Log4j2
 @RestController
@@ -159,12 +162,14 @@ public class Api_V1 {
         return usersService.logout(jwtRequestDto);
     }
 
+    final KaKaoService kaKaoService;
     @ResponseBody
     @GetMapping("/kakaoLogin")
-    public void kakaoLogin(@RequestParam String code) {
+    public String kakaoLogin(@RequestParam String code) throws IOException {
         System.out.println(code);
-        usersService.getKaKaoAccessToken(code);
-
+        final String access_Token = kaKaoService.getToken(code);
+        final Map<String, Object> map = kaKaoService.getUserInfo(access_Token);
+        return map.toString();
     }
 
 }

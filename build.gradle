@@ -50,6 +50,9 @@ dependencies {
     // 대역폭 제한
     implementation 'com.giffing.bucket4j.spring.boot.starter:bucket4j-spring-boot-starter:0.6.1'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor:2.6.7'
+
+    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
 }
 
 test {

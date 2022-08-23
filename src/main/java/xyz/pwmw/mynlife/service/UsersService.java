@@ -55,6 +55,7 @@ public class UsersService {
     private final EmailAuthService emailAuthService;
     private final ResetPasswordAuthCodeService resetPasswordAuthCodeService;
     private final ApplicationSocialLoginConfigData applicationSocialLoginConfigData;
+    private final KaKaoService kaKaoService;
     public Users findByEmail(String email) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
         log.info("findByEmail : '{}'", email);
         return usersRepository.findByUserEmail(aes256Cipher.AES_Encode(email));
