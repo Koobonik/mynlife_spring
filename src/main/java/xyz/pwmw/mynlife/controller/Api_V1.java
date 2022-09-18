@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import xyz.pwmw.mynlife.dto.requestDto.*;
@@ -39,6 +40,7 @@ public class Api_V1 {
     private final UsersService usersService;
     private final EmailAuthService emailAuthService;
     private final SmsService smsService;
+    private final KaKaoService kaKaoService;
 
     @ApiOperation(value = "HTTP GET EXAMPLE", notes = "GET 요청에 대한 예제 입니다.")
     @ApiResponses({
@@ -162,7 +164,6 @@ public class Api_V1 {
         return usersService.logout(jwtRequestDto);
     }
 
-    final KaKaoService kaKaoService;
     @ResponseBody
     @GetMapping("/kakaoLogin")
     public String kakaoLogin(@RequestParam String code) throws IOException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, ParseException, InvalidKeyException {
@@ -171,6 +172,23 @@ public class Api_V1 {
         final Map<String, Object> map = kaKaoService.getUserInfo(access_Token);
 //        usersService.socialSignUp(new SocialSignUpRequestDto("", "", "",""));
         return map.toString();
+    }
+
+    @PostMapping("/social/access")
+    public ResponseEntity<?> accessSocial(@RequestBody SocialAccessDto socialAccessDto) throws IOException {
+        if(socialAccessDto.getSocialType().equals("kakao")){
+//            final String access_Token = kaKaoService.getToken(socialAccessDto.getCode());
+            final Map<String, Object> map = kaKaoService.getUserInfo(socialAccessDto.getAccessToken());
+            System.out.println(map);
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        }
+        else if(socialAccessDto.getSocialType().equals("apple")){
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        }
+        else if(socialAccessDto.getSocialType().equals("google")){
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
 
 }

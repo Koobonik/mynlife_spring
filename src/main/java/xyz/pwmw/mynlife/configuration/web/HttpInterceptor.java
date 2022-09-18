@@ -24,7 +24,7 @@ public class HttpInterceptor extends HandlerInterceptorAdapter {
 							 HttpServletResponse response,
 							 Object handler) {
 
-		String jwt = request.getHeader("Authorization");
+		String jwt = request.getHeader("authorization");
 		log.info("================ Before Method");
 		log.info("접속 ip 주소 '{}'", request.getRemoteAddr());
 		log.info(request.getRemoteAddr());
@@ -73,6 +73,7 @@ public class HttpInterceptor extends HandlerInterceptorAdapter {
 		if(re.getRequestURI().contains("signIn") ||
 				re.getRequestURI().contains("api/v1/login") ||
 				re.getRequestURI().contains("api/v1/signUp") ||
+				re.getRequestURI().contains("api/v1/social/access") ||
 				re.getRequestURI().contains("api/v1/sendEmailForAuthEmail") ||
 				re.getRequestURI().contains("region/city") ||
 				re.getRequestURI().contains("region/region")){
