@@ -4,16 +4,20 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import xyz.pwmw.mynlife.dto.requestDto.*;
 import xyz.pwmw.mynlife.dto.responseDto.DefaultResponseDto;
 import xyz.pwmw.mynlife.dto.responseDto.JwtResponseDto;
+import xyz.pwmw.mynlife.model.Users;
 import xyz.pwmw.mynlife.service.EmailAuthService;
 import xyz.pwmw.mynlife.service.KaKaoService;
 import xyz.pwmw.mynlife.service.SmsService;
 import xyz.pwmw.mynlife.service.UsersService;
+import xyz.pwmw.mynlife.util.AES256Cipher;
 import xyz.pwmw.mynlife.util.jwt.JwtTokenProvider;
 
 import javax.crypto.BadPaddingException;
@@ -27,6 +31,9 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 @Log4j2
@@ -41,6 +48,7 @@ public class Api_V1 {
     private final EmailAuthService emailAuthService;
     private final SmsService smsService;
     private final KaKaoService kaKaoService;
+    private final AES256Cipher aes256Cipher;
 
     @ApiOperation(value = "HTTP GET EXAMPLE", notes = "GET 요청에 대한 예제 입니다.")
     @ApiResponses({
@@ -128,6 +136,7 @@ public class Api_V1 {
     }
 
     @PostMapping("jwtValidation")
+    @Transactional
     public String jwtValidation(@RequestHeader @RequestParam String jwt){
         // 헤더에서 토큰값 추출
         log.info(jwt);
@@ -175,12 +184,34 @@ public class Api_V1 {
     }
 
     @PostMapping("/social/access")
-    public ResponseEntity<?> accessSocial(@RequestBody SocialAccessDto socialAccessDto) throws IOException {
+    public ResponseEntity<?> accessSocial(@RequestBody SocialAccessDto socialAccessDto) throws IOException, org.apache.tomcat.util.json.ParseException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
         if(socialAccessDto.getSocialType().equals("kakao")){
 //            final String access_Token = kaKaoService.getToken(socialAccessDto.getCode());
             final Map<String, Object> map = kaKaoService.getUserInfo(socialAccessDto.getAccessToken());
-            System.out.println(map);
-            return new ResponseEntity<>(null, HttpStatus.OK);
+            Map<String, Object> kakaoAccount = (Map<String, Object>) map.get("kakaoAccount");
+            Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
+            Users users = usersService.findByEmail(kakaoAccount.get("email").toString());
+            if(users == null){
+                // 회원가입 로직으로 보내주자
+                Users users1 = Users.builder()
+                        .email(aes256Cipher.AES_Encode(kakaoAccount.get("email").toString()))
+                        .gender(kakaoAccount.get("gender").toString())
+                        .imageUrl(profile.get("profile_image_url").toString())
+                        .userNickname(profile.get("nickname").toString())
+                        .socialType("kakao")
+                        .build();
+                ArrayList<String> arrayList = new ArrayList<>(List.of("ROLE_USER"));
+
+                users1.setRoles(arrayList);
+                usersService.save(users1);
+                Users users2 = usersService.findByEmail(kakaoAccount.get("email").toString());
+                return new ResponseEntity<>(jwtTokenProvider.createToken(users2.getUserEmail(), users2.getRoles()), HttpStatus.OK);
+
+            }
+            System.out.println("users -> " + users.getUserEmail());
+
+//            usersService.findByEmail(map2.get("email").toString());
+            return new ResponseEntity<>(jwtTokenProvider.createToken(users.getUserEmail(), users.getRoles()), HttpStatus.OK);
         }
         else if(socialAccessDto.getSocialType().equals("apple")){
             return new ResponseEntity<>(null, HttpStatus.OK);

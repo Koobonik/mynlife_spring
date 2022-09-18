@@ -32,6 +32,9 @@ public class Users implements UserDetails {
     private String userPassword;
     @Column(columnDefinition = "TEXT")
     private String imageUrl;
+    @Column(columnDefinition = "TEXT")
+    private String backgroundImageUrl;
+
 
     @Column(columnDefinition = "TEXT")
     private String birthDay;
@@ -71,6 +74,16 @@ public class Users implements UserDetails {
 
     public Users() {
 
+    }
+
+    @Builder
+    public Users(String email, String socialType, String userNickname, String gender, String imageUrl, String backgroundImageUrl){
+        this.userEmail = email;
+        this.socialType = socialType;
+        this.userNickname = userNickname;
+        this.gender = gender;
+        this.imageUrl = imageUrl;
+        this.backgroundImageUrl = backgroundImageUrl;
     }
 
     @Override

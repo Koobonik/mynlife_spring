@@ -125,11 +125,11 @@ public class JwtTokenProvider {
     public boolean validateToken(String jwtToken) {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(tokenKey).parseClaimsJws(jwtToken);
-            ValueOperations<String, String> logoutValueOperations = redisTemplate.opsForValue();
-            if(logoutValueOperations.get(jwtToken) != null){
-                log.info("로그아웃된 토큰 입니다.");
-                return false;
-            }
+//            ValueOperations<String, String> logoutValueOperations = redisTemplate.opsForValue();
+//            if(logoutValueOperations.get(jwtToken) != null){
+//                log.info("로그아웃된 토큰 입니다.");
+//                return false;
+//            }
             return !claims.getBody().getExpiration().before(new Date());
         } catch (Exception e) {
             log.info("validateToken 에러 발생!");
