@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 public class ProfileResponseDto {
     long id;
-    String userNickname;
+    String nickname;
     String imageUrl;
     List<String> roles;
 }
