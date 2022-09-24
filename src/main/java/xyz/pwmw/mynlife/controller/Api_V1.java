@@ -184,6 +184,7 @@ public class Api_V1 {
     }
 
     @PostMapping("/social/access")
+    @Transactional
     public ResponseEntity<?> accessSocial(@RequestBody SocialAccessDto socialAccessDto) throws IOException, org.apache.tomcat.util.json.ParseException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
         if(socialAccessDto.getSocialType().equals("kakao")){
 //            final String access_Token = kaKaoService.getToken(socialAccessDto.getCode());
@@ -195,8 +196,8 @@ public class Api_V1 {
                 // 회원가입 로직으로 보내주자
                 Users users1 = Users.builder()
                         .email(aes256Cipher.AES_Encode(kakaoAccount.get("email").toString()))
-                        .gender(kakaoAccount.get("gender").toString())
-                        .imageUrl(profile.get("profile_image_url").toString())
+                        .gender(kakaoAccount.get("gender") != null ? kakaoAccount.get("gender").toString() : "unknown")
+                        .imageUrl(profile.get("profile_image_url") != null ? profile.get("profile_image_url").toString() : "")
                         .userNickname(profile.get("nickname").toString())
                         .socialType("kakao")
                         .build();
