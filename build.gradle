@@ -27,7 +27,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web:2.6.7'
     implementation 'org.springframework.boot:spring-boot-starter-websocket:2.6.7'
     compileOnly 'org.projectlombok:lombok:1.18.24'
-    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:3.0.4'
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:3.0.6'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.7'
     testImplementation 'org.springframework.amqp:spring-rabbit-test:2.4.4'
