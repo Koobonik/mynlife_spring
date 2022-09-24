@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import xyz.pwmw.mynlife.dto.responseDto.JwtResponseDto;
 import xyz.pwmw.mynlife.model.Users;
 import xyz.pwmw.mynlife.util.PemReader;
@@ -102,6 +103,7 @@ public class JwtTokenProvider {
     }
 
     // JWT 토큰에서 인증 정보 조회
+    @Transactional
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(getUserPk(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
@@ -111,8 +113,6 @@ public class JwtTokenProvider {
     public String getUserPk(String token) {
         Claims claims = Jwts.parser().setSigningKey(tokenKey).parseClaimsJws(token).getBody();
         log.info("토큰값 : '{}'", token);
-        log.info(claims.getIssuedAt());
-        log.info(claims.getExpiration());
         return Jwts.parser().setSigningKey(tokenKey).parseClaimsJws(token).getBody().getSubject();
     }
 

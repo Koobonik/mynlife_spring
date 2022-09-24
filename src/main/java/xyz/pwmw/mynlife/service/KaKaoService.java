@@ -121,9 +121,6 @@ public class KaKaoService {
             });
             result.put("kakaoAccount", kakaoAccount);
             result.put("properties", properties);
-            String id = map.get("id").toString();
-            String nickname = properties.get("nickname").toString();
-            String age_range = kakaoAccount.get("age_range").toString();
 
 //            result.put("id", id);
 //            result.put("nickname", nickname);
