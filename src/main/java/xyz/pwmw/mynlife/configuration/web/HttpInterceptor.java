@@ -71,9 +71,9 @@ public class HttpInterceptor extends HandlerInterceptorAdapter {
 	public boolean tokenFilter(HttpServletRequest re){
 		log.info("얘가 먼저여야하는데...");
 		if(re.getRequestURI().contains("signIn") ||
-				re.getRequestURI().contains("api/v1/login") ||
-				re.getRequestURI().contains("api/v1/signUp") ||
-				re.getRequestURI().contains("api/v1/social/access") ||
+				re.getRequestURI().contains("api/users/login") ||
+				re.getRequestURI().contains("api/users/signUp") ||
+				re.getRequestURI().contains("api/users/social/access") ||
 				re.getRequestURI().contains("api/v1/sendEmailForAuthEmail") ||
 				re.getRequestURI().contains("region/city") ||
 				re.getRequestURI().contains("region/region")){
