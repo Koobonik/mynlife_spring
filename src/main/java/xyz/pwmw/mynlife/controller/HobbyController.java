@@ -11,11 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import xyz.pwmw.mynlife.dto.responseDto.DefaultResponseDto;
-import xyz.pwmw.mynlife.model.Hobby;
 import xyz.pwmw.mynlife.service.HobbyService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2

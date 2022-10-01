@@ -31,3 +31,5 @@ VALUES
      '스키&보드',
      'color2',
      'https://img.olympicchannel.com/images/image/private/t_16-9_3200/primary/zvfbyk6kasvsentgp8u4');
+
+-- 골프도 넣자~

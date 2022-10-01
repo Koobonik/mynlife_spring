@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import xyz.pwmw.mynlife.dto.requestDto.*;
 import xyz.pwmw.mynlife.dto.responseDto.DefaultResponseDto;
 import xyz.pwmw.mynlife.dto.responseDto.JwtResponseDto;
-import xyz.pwmw.mynlife.model.Users;
+import xyz.pwmw.mynlife.model.users.Users;
 import xyz.pwmw.mynlife.service.KaKaoService;
 import xyz.pwmw.mynlife.service.SmsService;
 import xyz.pwmw.mynlife.service.UsersService;

@@ -1,4 +1,4 @@
-package xyz.pwmw.mynlife.model;
+package xyz.pwmw.mynlife.model.users;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

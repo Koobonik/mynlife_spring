@@ -1,4 +1,4 @@
-package xyz.pwmw.mynlife.model;
+package xyz.pwmw.mynlife.model.hobby;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
