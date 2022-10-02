@@ -26,7 +26,7 @@ public class IntoHobbyCost {
     private IntoHobbyCostId intoHobbyCostId;
 
 
-    @Column(columnDefinition = "json")
+    @Column(columnDefinition = "JSON")
     @Convert(converter = IntoHobbyCostDataConvert.class)
     private IntoHobbyCostData intoHobbyCostData;
 //    @ElementCollection

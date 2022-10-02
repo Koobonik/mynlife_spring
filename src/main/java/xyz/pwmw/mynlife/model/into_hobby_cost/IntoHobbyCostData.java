@@ -1,11 +1,8 @@
 package xyz.pwmw.mynlife.model.into_hobby_cost;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Converter;
-import javax.persistence.Entity;
 import java.util.HashMap;
 
 //@Entity
@@ -14,6 +11,7 @@ import java.util.HashMap;
 //@AllArgsConstructor
 // 취미 테이블
 //@Converter
+//@JsonIgnoreProperties(ignoreUnknown = true)
 public class IntoHobbyCostData {
     private HashMap<String, Integer> data = new HashMap<String, Integer>();
 

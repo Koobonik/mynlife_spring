@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class IntoHobbyCostId implements Serializable {
 
     @Column(name = "hobby_id")
-    private String hobbyId;
+    private long hobbyId;
     @Column(name = "user_id")
-    private String userId;
+    private long userId;
 }

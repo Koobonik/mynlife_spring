@@ -51,5 +51,5 @@ INSERT INTO `mynlife_dev`.`into_hobby_cost`
 VALUES
     (2,
      2,
-     '{"골프채":3000000, "멤버쉽":100000}'
+     '{"보드":300000, "시즌권":380000}'
     );

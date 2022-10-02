@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.pwmw.mynlife.service.HobbyService;
 
@@ -30,5 +31,14 @@ public class HobbyController {
     @GetMapping("/getAllHobby")
     public ResponseEntity<?> getAllHobby(){
         return new ResponseEntity<>(hobbyService.findAll(), HttpStatus.OK);
+    }
+
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "취미 목록들을 반환", response = List.class)
+    })
+    @ApiOperation(value = "취미 리스트들을 반환해주는 api", notes = "")
+    @GetMapping("/getHobbyCost")
+    public ResponseEntity<?> getHobbyCost(@RequestParam long id){
+        return new ResponseEntity<>(hobbyService.getIntoHobbyCostData(id), HttpStatus.OK);
     }
 }
