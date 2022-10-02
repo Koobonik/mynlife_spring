@@ -14,6 +14,7 @@ import java.util.Map;
 @Setter
 @AllArgsConstructor
 // 취미 테이블
+//@Convert(converter = IntoHobbyCostData.class, attributeName = "intoHobbyCostData")
 public class IntoHobbyCost {
 //    @Column(nullable = false)
 //    private long hobbyId;
@@ -24,6 +25,10 @@ public class IntoHobbyCost {
     @EmbeddedId
     private IntoHobbyCostId intoHobbyCostId;
 
+
+    @Column(columnDefinition = "json")
+    @Convert(converter = IntoHobbyCostDataConvert.class)
+    private IntoHobbyCostData intoHobbyCostData;
 //    @ElementCollection
 //    @CollectionTable(name = "order_item_mapping",
 //            joinColumns = {@JoinColumn(name = "order_id", referencedColumnName = "id")})
