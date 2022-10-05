@@ -49,7 +49,20 @@ INSERT INTO `mynlife_dev`.`into_hobby_cost`
  `user_id`,
  `into_hobby_cost_data`)
 VALUES
+    (1,
+     3,
+     '{"헬맷":150000, "보험료":300000, "바이크": 2500000, "튜닝비":400000}'
+    );
+
+INSERT INTO `mynlife_dev`.`into_hobby_cost`
+(`hobby_id`,
+ `user_id`,
+ `into_hobby_cost_data`)
+VALUES
     (2,
      2,
      '{"보드":300000, "시즌권":380000}'
     );
+
+
+-- 골프, 탁구, 야구, 서핑, 싸이클, 등산,
