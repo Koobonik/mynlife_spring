@@ -34,9 +34,9 @@ public class HobbyController {
     }
 
     @ApiResponses({
-            @ApiResponse(code = 200, message = "취미 목록들을 반환", response = List.class)
+            @ApiResponse(code = 200, message = "취미 견적서 반환", response = List.class)
     })
-    @ApiOperation(value = "취미 리스트들을 반환해주는 api", notes = "")
+    @ApiOperation(value = "취미 입문에 대한 견적서를 반환해주는 api", notes = "")
     @GetMapping("/getHobbyCost")
     public ResponseEntity<?> getHobbyCost(@RequestParam long id){
         return new ResponseEntity<>(hobbyService.getIntoHobbyCostData(id), HttpStatus.OK);
