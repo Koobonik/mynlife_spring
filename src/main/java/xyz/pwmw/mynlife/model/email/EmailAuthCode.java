@@ -1,4 +1,4 @@
-package xyz.pwmw.mynlife.model;
+package xyz.pwmw.mynlife.model.email;
 
 import lombok.*;
 import xyz.pwmw.mynlife.util.DateCreator;
