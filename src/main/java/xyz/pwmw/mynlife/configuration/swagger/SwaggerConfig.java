@@ -1,6 +1,6 @@
 package xyz.pwmw.mynlife.configuration.swagger;
 
-import com.google.common.collect.Lists;
+//import com.google.common.collect.Lists;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.PathSelectors;
@@ -31,9 +31,9 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("xyz.pwmw.mynlife.controller"))
                 .paths(PathSelectors.ant("/api/**"))
                 .build()
-                .apiInfo(apiInfo(title, version))
-                .securityContexts(Lists.newArrayList(securityContext()))
-                .securitySchemes(Lists.newArrayList(apiKey()));
+                .apiInfo(apiInfo(title, version));
+//                .securityContexts(Lists.newArrayList(securityContext()))
+//                .securitySchemes(Lists.newArrayList(apiKey()));
     }
     @Bean
     public Docket apiV2() {
@@ -61,17 +61,17 @@ public class SwaggerConfig {
                 new ArrayList<>());
     }
 
-    private ApiKey apiKey() {
-        return new ApiKey("Authorization","Authorization" , "header");
-    }
-    private SecurityContext securityContext() {
-        return SecurityContext.builder().securityReferences(defaultAuth()).forPaths(PathSelectors.any()).build();
-    }
-
-    List<SecurityReference> defaultAuth() {
-        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-        authorizationScopes[0] = authorizationScope;
-        return Lists.newArrayList(new SecurityReference("Authorization", authorizationScopes));
-    }
+//    private ApiKey apiKey() {
+//        return new ApiKey("Authorization","Authorization" , "header");
+//    }
+//    private SecurityContext securityContext() {
+//        return SecurityContext.builder().securityReferences(defaultAuth()).forPaths(PathSelectors.any()).build();
+//    }
+//
+//    List<SecurityReference> defaultAuth() {
+//        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+//        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+//        authorizationScopes[0] = authorizationScope;
+//        return Lists.newArrayList(new SecurityReference("Authorization", authorizationScopes));
+//    }
 }
