@@ -111,7 +111,7 @@ public class JwtTokenProvider {
     // 토큰에서 회원 정보 추출
     public String getUserPk(String token) {
         Claims claims = Jwts.parser().setSigningKey(tokenKey).parseClaimsJws(token).getBody();
-        log.info("토큰값 : '{}'", token);
+//        log.info("토큰값 : '{}'", token);
         return Jwts.parser().setSigningKey(tokenKey).parseClaimsJws(token).getBody().getSubject();
     }
 
@@ -137,6 +137,11 @@ public class JwtTokenProvider {
     }
     public Users getUsersFromToken(HttpServletRequest httpServletRequest){
         String token = this.resolveToken(httpServletRequest);
+        return (Users) this.getAuthentication(token).getPrincipal();
+    }
+
+    @Transactional
+    public Users getUsersFromToken(String token){
         return (Users) this.getAuthentication(token).getPrincipal();
     }
 }

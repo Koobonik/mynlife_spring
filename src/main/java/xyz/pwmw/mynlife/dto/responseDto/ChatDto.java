@@ -12,6 +12,7 @@ import java.util.Map;
 public class ChatDto {
     private String userToken;
     private String text;
+    private String receivedUserId;
 //    private List<String> images = new ArrayList<>();
     private String createdAt;
 
