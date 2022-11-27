@@ -33,6 +33,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -106,7 +107,12 @@ public class UsersController {
     @PostMapping("sendSms")
     public void sendSms(@RequestBody MessagesRequestDto messagesRequestDto) throws UnsupportedEncodingException, ParseException, NoSuchAlgorithmException, URISyntaxException, InvalidKeyException, JsonProcessingException {
         String statusCode = smsService.sendSms(messagesRequestDto).getStatusCode();
+    }
 
+    @PatchMapping("updateUserData")
+    public ResponseEntity<?> updateUserData(@RequestBody HashMap<String, Object> map,
+                                            HttpServletRequest request) {
+        return usersService.updateUserProfile(request, map);
     }
 
     @ApiResponses({
@@ -140,10 +146,11 @@ public class UsersController {
             Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
             Users users = usersService.findByEmail(kakaoAccount.get("email").toString());
             if(users == null){
+                System.out.println("성별 -> " + kakaoAccount.get("gender") + " 생년월일 -> ");
                 // 회원가입 로직으로 보내주자
                 Users users1 = Users.builder()
                         .email(aes256Cipher.AES_Encode(kakaoAccount.get("email").toString()))
-                        .gender(kakaoAccount.get("gender") != null ? kakaoAccount.get("gender").toString() : "unknown")
+                        .gender((boolean) kakaoAccount.get("has_gender") ? kakaoAccount.get("gender").toString() : "unknown")
                         .imageUrl(profile.get("profile_image_url") != null ? profile.get("profile_image_url").toString() : "")
                         .userNickname(profile.get("nickname").toString())
                         .socialType("kakao")
@@ -171,12 +178,12 @@ public class UsersController {
         return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
 
+    // 취미 계정을 생성해주는 변수
     @PostMapping("/social/createNewHobbyAccount/{hobbyId}")
     @Transactional
     public ResponseEntity<?> createNewHobbyAccount(
             HttpServletRequest request,
-            @PathVariable long hobbyId) throws IOException, org.apache.tomcat.util.json.ParseException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
-        usersService.createUsersHobby(request, hobbyId);
-        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            @PathVariable long hobbyId) {
+        return usersService.createUsersHobby(request, hobbyId);
     }
 }

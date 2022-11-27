@@ -133,10 +133,29 @@ public class UsersService {
         if(jwtTokenProvider.validateToken(jwt)){
             log.info("잘 들어옴");
             Users user = jwtTokenProvider.getUsersFromToken(httpServletRequest);
-            ProfileResponseDto profileResponseDto = new ProfileResponseDto(user.getUserId(), user.getUserNickname(), user.getImageUrl(),user.getRoles());
+            ProfileResponseDto profileResponseDto = new ProfileResponseDto(user.getUserId(), user.getUserNickname(), user.getImageUrl(),user.getRoles(), user.getGender(), user.getBirthDay());
             return new ResponseEntity<>(profileResponseDto, HttpStatus.OK);
         }
         return DefaultResponseDto.canNotFindProfile();
+    }
+
+    public ResponseEntity<?> updateUserProfile(HttpServletRequest httpServletRequest, HashMap<String, Object> map){
+        String jwt = jwtTokenProvider.resolveToken(httpServletRequest);
+        log.info("유저 토큰 {}", jwt);
+        if(jwtTokenProvider.validateToken(jwt)){
+            log.info("잘 들어옴");
+            Users user = jwtTokenProvider.getUsersFromToken(httpServletRequest);
+            if(map.containsKey("gender")){
+                user.setGender(map.get("gender").toString());
+            }
+            if(map.containsKey("birthDay")){
+                user.setBirthDay(map.get("birthDay").toString());
+            }
+            usersRepository.save(user);
+            ProfileResponseDto profileResponseDto = new ProfileResponseDto(user.getUserId(), user.getUserNickname(), user.getImageUrl(),user.getRoles(), user.getGender(), user.getBirthDay());
+            return new ResponseEntity<>(profileResponseDto, HttpStatus.OK);
+        }
+        return DefaultResponseDto.canNotUpdateProfile();
     }
 
     // 비밀번호 초기화 링크를 전송해줄 것임
@@ -272,7 +291,8 @@ public class UsersService {
         log.info("토큰 무효화! 유저 아이디 : '{}' , 유저 이름 : '{}'", user.getUserId(), user.getUserNickname());
     }
 
-    public void createUsersHobby(HttpServletRequest request, long id) {
+    // 취미 만들어주는 함수
+    public ResponseEntity<?> createUsersHobby(HttpServletRequest request, long id) {
         Users users = jwtTokenProvider.getUsersFromToken(request);
 
         // 아이디 생성
@@ -284,8 +304,12 @@ public class UsersService {
                 .usersHobbyId(usersHobbyId)
                 .build();
 
-        usersHobbyRepository.save(usersHobby);
-
+        try {
+            usersHobbyRepository.save(usersHobby);
+            return new ResponseEntity<>(new DefaultResponseDto(200, usersHobby.toString()), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(new DefaultResponseDto(500, "가입 실패"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 

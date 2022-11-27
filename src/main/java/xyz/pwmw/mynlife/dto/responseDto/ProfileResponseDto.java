@@ -16,4 +16,6 @@ public class ProfileResponseDto {
     String nickname;
     String imageUrl;
     List<String> roles;
+    String gender;
+    String birthDay;
 }
