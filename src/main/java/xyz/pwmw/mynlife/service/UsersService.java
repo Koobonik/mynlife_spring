@@ -18,8 +18,7 @@ import xyz.pwmw.mynlife.dto.responseDto.JwtResponseDto;
 import xyz.pwmw.mynlife.dto.responseDto.ProfileResponseDto;
 import xyz.pwmw.mynlife.model.email.EmailAuthCodeRepository;
 import xyz.pwmw.mynlife.model.ResetPasswordAuthCode;
-import xyz.pwmw.mynlife.model.users.Users;
-import xyz.pwmw.mynlife.model.users.UsersRepository;
+import xyz.pwmw.mynlife.model.users.*;
 import xyz.pwmw.mynlife.util.AES256Cipher;
 import xyz.pwmw.mynlife.util.DateCreator;
 import xyz.pwmw.mynlife.util.ValidSomething;
@@ -44,6 +43,7 @@ import java.util.*;
 public class UsersService {
 
     private final UsersRepository usersRepository;
+    private final UsersHobbyRepository usersHobbyRepository;
     private final StringRedisTemplate redisTemplate;
     private final JwtTokenProvider jwtTokenProvider;
     private final EmailAuthCodeRepository emailAuthCodeRepository;
@@ -270,6 +270,22 @@ public class UsersService {
         logoutValueOperations.set(token, String.valueOf(user.getUserId())); // redis set 명령어
 
         log.info("토큰 무효화! 유저 아이디 : '{}' , 유저 이름 : '{}'", user.getUserId(), user.getUserNickname());
+    }
+
+    public void createUsersHobby(HttpServletRequest request, long id) {
+        Users users = jwtTokenProvider.getUsersFromToken(request);
+
+        // 아이디 생성
+        UsersHobbyId usersHobbyId = new UsersHobbyId();
+        usersHobbyId.setHobbyId(id);
+        usersHobbyId.setUserId(users.getUserId());
+
+        UsersHobby usersHobby = UsersHobby.builder()
+                .usersHobbyId(usersHobbyId)
+                .build();
+
+        usersHobbyRepository.save(usersHobby);
+
     }
 
 

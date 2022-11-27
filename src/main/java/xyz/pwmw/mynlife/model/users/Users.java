@@ -54,6 +54,13 @@ public class Users implements UserDetails {
 
     private Timestamp lastLogin;
 
+
+    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL) // (1)
+    @JoinColumn(name="hobby_id")
+    private Collection<UsersHobby> usersHobbies;
+
+
+
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
     private List<String> roles = new ArrayList<>();

@@ -170,4 +170,13 @@ public class UsersController {
         }
         return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
+
+    @PostMapping("/social/createNewHobbyAccount/{hobbyId}")
+    @Transactional
+    public ResponseEntity<?> createNewHobbyAccount(
+            HttpServletRequest request,
+            @PathVariable long hobbyId) throws IOException, org.apache.tomcat.util.json.ParseException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        usersService.createUsersHobby(request, hobbyId);
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    }
 }
