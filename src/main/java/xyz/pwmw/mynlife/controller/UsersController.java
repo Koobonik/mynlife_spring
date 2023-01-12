@@ -186,4 +186,14 @@ public class UsersController {
             @PathVariable long hobbyId) {
         return usersService.createUsersHobby(request, hobbyId);
     }
+
+
+    // 취미 계정을 반환 해주는 변수
+    @PostMapping("/social/getHobbyAccount/{userId}")
+    @Transactional
+    public ResponseEntity<?> getHobbyAccount(
+            HttpServletRequest request,
+            @PathVariable long userId) {
+        return usersService.createUsersHobby(request, userId);
+    }
 }

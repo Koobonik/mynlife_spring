@@ -313,4 +313,26 @@ public class UsersService {
     }
 
 
+    // 유저의 취미를 반환해주는 함수
+    public ResponseEntity<?> getUsersHobby(HttpServletRequest request, long id) {
+        Users users = jwtTokenProvider.getUsersFromToken(request);
+
+        // 아이디 생성
+        UsersHobbyId usersHobbyId = new UsersHobbyId();
+        usersHobbyId.setHobbyId(id);
+        usersHobbyId.setUserId(users.getUserId());
+
+        UsersHobby usersHobby = UsersHobby.builder()
+                .usersHobbyId(usersHobbyId)
+                .build();
+
+        try {
+            usersHobbyRepository.save(usersHobby);
+            return new ResponseEntity<>(new DefaultResponseDto(200, usersHobby.toString()), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(new DefaultResponseDto(500, "가입 실패"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 }
